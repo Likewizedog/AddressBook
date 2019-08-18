@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AddressBook.Contact>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Contacts</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+<asp:listbox runat="server">
+    <asp:listitem text="text1" />
+    <asp:listitem text="text2" />
+</asp:listbox>
+
+@if (Model != null)
+{ 
+    using (Html.BeginForm("Index", "Contact", FormMethod.Post))
+    {
+        <b>Search by:</b>
+        <input type="text" name="searchString" value=@ViewBag.Message>
+        <input type="submit" value="Search" />
+    }
+
+
+    <table class="table">
+        <tr>
+            <th>
+                <text>First Name</text>
+            </th>
+            <th>
+                <text>Last Name</text>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+}
+else 
+{
+   <text>You are not logged in</text>
+}
+
+

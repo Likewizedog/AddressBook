@@ -1,0 +1,96 @@
+﻿@model AddressBook.Contact
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <h4>Contact</h4>
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+    <hr />
+
+    <table style="">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FirstName)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.LastName)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.LastName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Belongs To User
+            </td>
+            <td>
+                @Html.DropDownList("UserId")
+            </td>
+
+            <td>
+                @Html.ValidationMessageFor(model => model.UserId)
+            </td>
+            <td>
+                @Html.ValidationMessageFor(model => model.FirstName)
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+            </td>
+        </tr>
+
+        <tr class="form-group">
+            <td>
+                <input type="submit" value="Save" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,111 @@
+﻿@model AddressBook.Contact
+
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<hr>
+
+<table class="table">
+    <tr>
+        <td>
+            <font size="5px">
+                Id:
+                <font color="#df691a">
+                    @Html.DisplayFor(modelItem => Model.Id)
+                </font>
+            </font>
+        </td>
+
+            <td>
+                <font size="5px">
+                    First Name:
+                    <font color="#df691a">
+                        @Html.DisplayFor(modelItem => Model.FirstName)
+                    </font>
+                </font>
+            </td>
+
+            <td>
+                <font size="5px">
+                    Last Name:
+                    <font color="#df691a">
+                        @Html.DisplayFor(modelItem => Model.LastName)
+                    </font>
+                </font>
+            </td>
+    </tr>
+</table>
+
+<hr  style="border-top: 1px solid #bf5a16; ">
+<h2>Emails</h2>
+<hr>
+
+@using (Html.BeginForm("AddEmail", "Contact", FormMethod.Post))
+{
+    <b>Add email:</b>
+    <input type="hidden" name="ContactId" value=@Model.Id />
+    <input type="text" name="emailAddress">
+    <input type="submit" value="Add Email"  />
+    <hr>
+}
+
+<table class="table">
+    @foreach (var em in Model.ContactEmails)
+    {
+        <tr>
+            <td>
+                <font size="3">
+                    @em.EmailAddress
+                </font>
+            </td>
+            <td>
+                <font size="3">
+                    @Html.ActionLink("Delete", "DeleteEmail", new { id = em.Id })
+                </font>
+            </td>
+        </tr>
+    }
+</table>
+
+<hr style="border-top: 1px solid #bf5a16; ">
+<h2>Numbers</h2>
+<hr>
+
+@using (Html.BeginForm("AddNumber", "Contact", FormMethod.Post))
+{
+    <b>Add number:</b>
+    <input type="hidden" name="ContactId" value=@Model.Id />
+    <input type="text" name="numberString">
+    <input type="submit" value="Add Number" />
+    <hr>
+} 
+
+<table class="table">
+    @foreach (var em in Model.ContactNumbers)
+    {
+        <tr>
+            <td>
+                <font size="3">
+                    @em.Number
+                </font>
+            </td>
+            <td>
+                <font size="3">
+                    @Html.ActionLink("Delete", "DeleteNumber", new { id = em.Id })
+                </font>
+            </td>
+        </tr>
+    }
+</table>
+<hr style="border-top: 1px solid #bf5a16; ">
+
+
+
+    <p>
+        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+        @Html.ActionLink("Back to List", "Index")
+    </p>
