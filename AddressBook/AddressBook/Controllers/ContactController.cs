@@ -34,7 +34,7 @@ namespace AddressBook.Controllers
                 if (!String.IsNullOrEmpty(searchString))
                 {
                     contacts = from c in db.Contacts
-                               where c.UserId == loggedInUserId && c.FirstName.Contains(searchString)
+                               where c.UserId == loggedInUserId && (c.FirstName.Contains(searchString) || c.LastName.Contains(searchString))
                                select c;
                 }
 
@@ -150,19 +150,17 @@ namespace AddressBook.Controllers
             int UserId = Convert.ToInt32(Session["loggedInUserId"].ToString());
 
             ContactEmail email = new ContactEmail();
-            email.EmailAddress = emailAddress;
+            email.EmailAddress = emailAddress.Trim();
             email.ContactId = Convert.ToInt32(ContactId);
 
-            if (ModelState.IsValid)
+
+            if (ModelState.IsValid && emailAddress.Trim() != String.Empty)
             {
                 db.ContactEmails.Add(email);
-                db.SaveChanges();
-                return Redirect(Request.UrlReferrer.ToString());
+                db.SaveChanges();    
             }
-            else
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult DeleteEmail(int? id)
@@ -196,19 +194,16 @@ namespace AddressBook.Controllers
             int UserId = Convert.ToInt32(Session["loggedInUserId"].ToString());
 
             ContactNumber numberObj = new ContactNumber();
-            numberObj.Number = numberString;
+            numberObj.Number = numberString.Trim();
             numberObj.ContactId = Convert.ToInt32(ContactId);
 
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && numberString.Trim() != String.Empty)
             {
                 db.ContactNumbers.Add(numberObj);
-                db.SaveChanges();
-                return Redirect(Request.UrlReferrer.ToString());
+                db.SaveChanges();     
             }
-            else
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+
+            return Redirect(Request.UrlReferrer.ToString());
         }
 
         public ActionResult DeleteNumber(int? id)
@@ -228,6 +223,29 @@ namespace AddressBook.Controllers
             {
                 ContactNumber number = db.ContactNumbers.Find(id);
                 db.ContactNumbers.Remove(number);
+                db.SaveChanges();
+            }
+            return Redirect(Request.UrlReferrer.ToString());
+        }
+
+        public ActionResult DeleteContact(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            Contact contact = db.Contacts.Find(id);
+
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {                
+                contact.ContactEmails.ToList().ForEach(s => db.Entry(s).State = EntityState.Deleted);
+                contact.ContactNumbers.ToList().ForEach(s => db.Entry(s).State = EntityState.Deleted);
+                db.Contacts.Remove(contact);
                 db.SaveChanges();
             }
             return Redirect(Request.UrlReferrer.ToString());

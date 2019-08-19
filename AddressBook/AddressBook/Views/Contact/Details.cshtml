@@ -9,6 +9,10 @@
 <h2>Details</h2>
 <hr>
 
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
 <table class="table">
     <tr>
         <td>
@@ -48,7 +52,7 @@
 {
     <b>Add email:</b>
     <input type="hidden" name="ContactId" value=@Model.Id />
-    <input type="text" name="emailAddress">
+    <input type="text" name="emailAddress" required data-val="true" data-val-required="The Full Name field is required.">
     <input type="submit" value="Add Email"  />
     <hr>
 }
@@ -79,7 +83,7 @@
 {
     <b>Add number:</b>
     <input type="hidden" name="ContactId" value=@Model.Id />
-    <input type="text" name="numberString">
+    <input type="text" name="numberString" required data-val="true" data-val-required="The Full Name field is required.">
     <input type="submit" value="Add Number" />
     <hr>
 } 
@@ -106,6 +110,5 @@
 
 
     <p>
-        @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
         @Html.ActionLink("Back to List", "Index")
     </p>

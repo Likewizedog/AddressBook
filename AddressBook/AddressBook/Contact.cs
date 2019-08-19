@@ -11,6 +11,7 @@ namespace AddressBook
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class Contact
     {
@@ -21,8 +22,14 @@ namespace AddressBook
         }
     
         public int Id { get; set; }
+
+        [Required]
         public string FirstName { get; set; }
+
+        [Required]
         public string LastName { get; set; }
+
+        [Required]
         public int UserId { get; set; }
     
         public virtual User User { get; set; }

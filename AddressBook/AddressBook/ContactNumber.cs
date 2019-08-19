@@ -11,10 +11,12 @@ namespace AddressBook
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     
     public partial class ContactNumber
     {
         public int Id { get; set; }
+        [Required]
         public string Number { get; set; }
         public int ContactId { get; set; }
     

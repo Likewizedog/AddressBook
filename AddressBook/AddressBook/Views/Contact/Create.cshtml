@@ -11,42 +11,76 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
+
+    <table>
         <h4>Contact</h4>
         <hr />
         @Html.ValidationSummary(true)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FirstName)
+                    @Html.ValidationMessageFor(model => model.FirstName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LastName)
+                    @Html.ValidationMessageFor(model => model.LastName)
+                </div>
+            </div>*@
+
+
+        @*<div class="form-group">
+                <div class=" control-label col-md-2" style="">
+                    <label style="height:8px">Belongs To User</label>
+                </div>
+                <div class="col-md-10">
+                    @Html.DropDownList("UserId")
+                    @Html.ValidationMessageFor(model => model.UserId)
+                </div>
+            </div>*@
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-2" })
+            </td>
+            <td>
                 @Html.EditorFor(model => model.FirstName)
                 @Html.ValidationMessageFor(model => model.FirstName)
-            </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-2" })
+            </td>
+            <td>
                 @Html.EditorFor(model => model.LastName)
                 @Html.ValidationMessageFor(model => model.LastName)
-            </div>
-        </div>
+            </td>
+        </tr>
 
-        <div class="form-group">
-            Belongs To User: 
-            <div class="col-md-2">
+        <tr>
+            <td>
+                <label style="height:8px">Belongs To User</label>
+            </td>
+            <td width="50px">
                 @Html.DropDownList("UserId")
                 @Html.ValidationMessageFor(model => model.UserId)
-            </div>
-        </div>
+            </td>
+        </tr>
+</table>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
-    </div>
+   
+    
 }
 
 <div>

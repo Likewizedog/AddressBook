@@ -18,7 +18,13 @@ namespace AddressBook.Controllers
         public ActionResult Index()
         {
             Session.Clear();
-            return View(db.Users.ToList());
+
+            if (db.Users != null)
+            {
+                 return View(db.Users.ToList());
+            }
+
+            return View();    
         }
 
         // GET: /User/Details/5
@@ -135,6 +141,89 @@ namespace AddressBook.Controllers
             return RedirectToAction("Index", "Contact");
         }
 
+
+        public ActionResult ResetDatabase()
+        {
+            db.ContactEmails.RemoveRange(db.ContactEmails);
+            db.ContactNumbers.RemoveRange(db.ContactNumbers);
+            db.Contacts.RemoveRange(db.Contacts);
+            db.Users.RemoveRange(db.Users);
+            db.SaveChanges();
+
+            List<User> userlist = new List<User> 
+            {
+                new User { FirstName = "Zee",LastName = "Daw" },
+                new User { FirstName = "Peter",LastName = "Kropotkin" },
+                new User { FirstName = "Charles",LastName = "Darwin" }
+            };
+
+            db.Users.AddRange(userlist.ToList());
+            db.SaveChanges();
+
+            var usersDBList = db.Users.ToList();
+
+            List<Contact> contactlist = new List<Contact> 
+            {
+                new Contact {  FirstName = "Sharon", LastName = "Nesquit", UserId = usersDBList[0].Id },
+                new Contact {  FirstName = "Hermes", LastName = "Roma", UserId = usersDBList[0].Id },
+                new Contact {  FirstName = "Abel", LastName = "West", UserId = usersDBList[0].Id  },
+                new Contact {  FirstName = "Tommy", LastName = "Ava", UserId = usersDBList[1].Id},
+                new Contact {  FirstName = "Simon", LastName = "Jones", UserId = usersDBList[1].Id  },
+                new Contact {  FirstName = "Ryan", LastName = "Dick", UserId = usersDBList[2].Id  }
+            };
+
+            db.Contacts.Add(contactlist[0]);
+            db.Contacts.Add(contactlist[1]);
+            db.Contacts.Add(contactlist[2]);
+            db.Contacts.Add(contactlist[3]);
+            db.Contacts.Add(contactlist[4]);
+            db.Contacts.Add(contactlist[5]);
+            db.SaveChanges();
+
+            var contactDBList = db.Contacts.ToList();
+
+            List<ContactEmail> contactEmaillist = new List<ContactEmail> 
+            {
+                new ContactEmail { Id = 1, EmailAddress = "Jelo@Mellow.com", ContactId = contactDBList[0].Id},
+                new ContactEmail { Id = 2, EmailAddress = "Young@Mellow.com", ContactId = contactDBList[0].Id},
+                new ContactEmail { Id = 3, EmailAddress = "SnailMail@SnailMail.com", ContactId = contactDBList[1].Id},
+                new ContactEmail { Id = 4, EmailAddress = "Ker@Frog.com", ContactId = contactDBList[1].Id}
+            };
+
+            
+            db.ContactEmails.Add(contactEmaillist[0]);
+            db.ContactEmails.Add(contactEmaillist[1]);
+            db.ContactEmails.Add(contactEmaillist[2]);
+            db.ContactEmails.Add(contactEmaillist[3]);
+            db.SaveChanges();
+
+            //var contactDBList2 = db.Contacts.ToList();
+            //var contactEmailDBList = db.ContactEmails.ToList();
+
+            //contactDBList2[0].ContactEmails.Add(contactEmailDBList[0]);
+            //contactDBList2[0].ContactEmails.Add(contactEmailDBList[1]);
+            //contactDBList2[1].ContactEmails.Add(contactEmailDBList[2]);
+            //contactDBList2[1].ContactEmails.Add(contactEmailDBList[3]);
+            //contactDBList2[2].ContactEmails.Add(contactEmailDBList[4]);
+
+            //foreach (Contact c in contactDBList2)
+            //{
+            //    db.Entry(c).State = EntityState.Modified;
+            //}
+
+            //List<ContactNumber> contactNumberlist = new List<ContactNumber> 
+            //{
+            //    new ContactNumber { Id = 1, Number = "951267", ContactId = contactDBList[0].Id},
+            //    new ContactNumber { Id = 2, Number = "675756", ContactId = contactDBList[0].Id},
+            //    new ContactNumber { Id = 3, Number = "67675357", ContactId = contactDBList[2].Id},
+            //    new ContactNumber { Id = 4, Number = "95324126367", ContactId = contactDBList[3].Id}
+            //};
+
+            //db.ContactNumbers.AddRange(contactNumberlist.ToList());
+
+            //db.SaveChanges();
+            return Redirect(Request.UrlReferrer.ToString());
+        }
 
 
         protected override void Dispose(bool disposing)

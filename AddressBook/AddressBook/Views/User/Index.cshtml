@@ -35,4 +35,13 @@
     </tr>
 }
 
+    <tr>
+        <td>
+            @using (Html.BeginForm("ResetDatabase", "User", FormMethod.Post))
+            {
+                <input type="submit" name="ResetDatabase" value="ResetDatabase" class="btn btn-default" />
+            }
+            Reinitialize the database with test data.
+        </td>
+    </tr>
 </table>
